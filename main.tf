@@ -27,6 +27,6 @@ resource "aws_internet_gateway" "ntiergw" {
     "Name" = "local.igw_name"
   }
   depends_on = [
-    aws_vpc.nt
+    aws_vpc.ntiervpc
   ]
 }
