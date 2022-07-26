@@ -79,6 +79,7 @@ resource "aws_route_table" "privatert" {
 resource "aws_route_table_association" "applassociation" {
   count = 4
   route_table_id = aws_route_table.privatert.id
+  subnet_id = aws_subnet.subnets[count.index + 2].id
   depends_on = [
     aws_route_table.privatert
   ]
