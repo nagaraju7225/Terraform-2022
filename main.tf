@@ -45,6 +45,10 @@ resource "aws_route_table" "publicrt" {
     aws_subnet.subnets[0],
     aws_subnet.subnets[1]
   ]
+
+  tags = {
+    "Name" = "publicrt"
+  }
 }
 
 resource "aws_route_table_association" "webassociations" {
