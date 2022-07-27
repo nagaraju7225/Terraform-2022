@@ -1,3 +1,4 @@
+#creating aws db subnet group 
 resource "aws_db_subnet_group" "dbsubnetgroup" {
   name = local.db_subnet_group_name
   subnet_ids = [ aws_subnet.subnets[4].id, aws_subnet.subnets[5].id ]
@@ -12,6 +13,7 @@ resource "aws_db_subnet_group" "dbsubnetgroup" {
   ]
 }
 
+#creating mysql db by using aws rds service
 resource "aws_db_instance" "ntierdb" {
   allocated_storage = 20
   allow_major_version_upgrade = false
@@ -29,6 +31,7 @@ resource "aws_db_instance" "ntierdb" {
   tags = {
     "Name" = "ntierdb"
   }
+  skip_final_snapshot = true
 
   depends_on = [
     aws_db_subnet_group.dbsubnetgroup
