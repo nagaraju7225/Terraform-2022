@@ -7,4 +7,11 @@ variable "region" {
 variable "vpccidr" {
   type = string
   default = "192.168.0.0/16"
+  description = "cidr range of the vpc"
+}
+
+variable "webserverinstancetype" {
+  type = string
+  default = "t2.micro"
+  description = "webserver instance type"
 }
