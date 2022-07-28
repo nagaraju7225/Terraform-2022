@@ -19,7 +19,12 @@ resource "aws_security_group" "websg" {
     protocol = local.tcp
     to_port = local.http
   }
-
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {
     "Name" = "websg"
   }
@@ -49,6 +54,12 @@ resource "aws_security_group" "appsg" {
     from_port = local.appport
     protocol = local.tcp
     to_port = local.appport
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [ "0.0.0.0/0" ]
   }
 
   tags = {

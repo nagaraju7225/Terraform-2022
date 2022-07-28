@@ -4,7 +4,7 @@ resource "aws_instance" "appserver1" {
   associate_public_ip_address = false
   instance_type = var.webserverinstancetype
   key_name = "naga_pl"
-  vpcvpc_security_group_ids = [ aws_security_group.appsg.id ]
+  vpc_security_group_ids = [ aws_security_group.appsg.id ]
   subnet_id = aws_subnet.subnets[2].id
   tags = {
     "Name" = "appserver1"
@@ -24,7 +24,25 @@ resource "aws_instance" "webserver1" {
   tags = {
     "Name" = "webserver1"
   }
+  resource "null_resource" "nullprovisoning" {
+
+    # ssh -i terraform.pem ubuntu@publicip
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = file("./terraform.pem")
+      host = aws_instance.webserver1.public_ip
+    }
+    provisioner "remote-exec" {
+      inline = [
+        "sudo apt update", 
+        "sudo apt install apache2 -y", 
+        "sudo apt install php libapache2-mod-php php-mysql php-cli -y",
+        "echo '<?php phpinfo(); ?>'| sudo tee /var/www/html/info.php"]
+    }
+
   depends_on = [
-    aws_db_instance.ntierdb
+    aws_db_instance.webserver1
   ]
 }
+
