@@ -24,13 +24,16 @@ resource "aws_instance" "webserver1" {
   tags = {
     "Name" = "webserver1"
   }
+   depends_on = [ aws_db_instance.ntierdb ]
+
+}
   resource "null_resource" "nullprovisoning" {
 
     # ssh -i terraform.pem ubuntu@publicip
     connection {
       type = "ssh"
       user = "ubuntu"
-      private_key = file("./terraform.pem")
+      private_key = file("./naga_pl.pem")
       host = aws_instance.webserver1.public_ip
     }
     provisioner "remote-exec" {
@@ -41,8 +44,6 @@ resource "aws_instance" "webserver1" {
         "echo '<?php phpinfo(); ?>'| sudo tee /var/www/html/info.php"]
     }
 
-  depends_on = [
-    aws_db_instance.webserver1
-  ]
+  depends_on = [ aws_instance.webserver1 ]
 }
 
