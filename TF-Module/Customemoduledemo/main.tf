@@ -11,7 +11,7 @@ module "vpc" {
   region = "us-west-2"
 }
 module "rds" {
-  source = "./moudels/rds"
+  source = "./modules/rds"
   db1subnetid = module.vpc.db1subnetid
   db2subnetid = module.vpc.db2subnetid
   dbsgid = module.vpc.dbsgid
